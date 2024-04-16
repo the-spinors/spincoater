@@ -1,0 +1,1 @@
+quad-average determines period from four pairs of time difference centered at current time, bi-average does the same for two pairs, and RPM-measurements, for one. quad-average yields smoothest curves.
