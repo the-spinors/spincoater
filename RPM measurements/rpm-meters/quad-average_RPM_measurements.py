@@ -19,11 +19,11 @@ plt.rcParams.update(params)
 
 
 # Imports
-filename = "26-04-24_3000_5.csv"
+filename = "26-04-24_3500_5.csv"
 df = pd.read_csv(f"../Datos/Cleaned/{filename}")
 
-seconds = df["seconds"][:-700]
-voltages = df["voltage"][:-700]
+seconds = df["seconds"][:-1750]
+voltages = df["voltage"][:-1750]
 
 
 # We pick a list of seconds whose voltages satisfy the if-condition.
@@ -81,4 +81,3 @@ m, b = polyfit(bound_voltage_seconds, rpm, 1)
 print(f"Acceleration: {m} RPM/s, y_intercept: {b}")
 
 plt.show()
-

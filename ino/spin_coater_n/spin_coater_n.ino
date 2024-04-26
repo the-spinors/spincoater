@@ -13,7 +13,7 @@ float RPM_us_function(float rpm) {
 // Operation variables
 const float Rstart = 420;
 const float Rend = 5300;
-const float Rstep = 11; // Step between RPM
+const float Rstep = 3; // Step between RPM
 
 const float accel = 3500; // RPM/s
 const float delay_time = (Rstep / accel) * 1000000; // Delay between RPM increments in microseconds
