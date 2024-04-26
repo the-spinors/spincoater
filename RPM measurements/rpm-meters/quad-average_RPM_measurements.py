@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from numpy import polyfit
 import pandas as pd
 from statistics import mean
 
@@ -18,15 +19,15 @@ plt.rcParams.update(params)
 
 
 # Imports
-filename = "linear_accel_TEK8"
-df = pd.read_csv(f"./Datos/Cleaned/{filename}.csv")
+filename = "TEK0028.csv"
+df = pd.read_csv(f"../Datos/Cleaned/{filename}")
 
 seconds = df["seconds"]
 voltages = df["voltage"]
 
 
 # We pick a list of seconds whose voltages satisfy the if-condition.
-# As the if-condition is satisfied once per cycle, we'll be able to determine
+# As the if-condition is satisfied once per cycle, we'll be able to determine   
 # the period by finding the diferences between these times.
 bound_voltage_seconds = []
 for s, v, v_next in zip(seconds, voltages, voltages[1:]):
@@ -66,11 +67,17 @@ for ax in axs:
     ax.grid(True, linestyle="--")
 
 fig.subplots_adjust(hspace=0.5)
-plt.show()
 
 
 # Export
-with open(f"./Datos salida/quadavg_{filename}_output.csv", "w") as f:
-    f.write("Tiempo,periodo,rpm\n")
-    for t, T, RPM in zip(bound_voltage_seconds, periods, rpm):
-        f.write(f"{t},{T},{RPM}\n")
+# with open(f"./Datos salida/quadavg_{filename}_output.csv", "w") as f:
+#     f.write("Tiempo,periodo,rpm\n")
+#     for t, T, RPM in zip(bound_voltage_seconds, periods, rpm):
+#         f.write(f"{t},{T},{RPM}\n")
+
+m, b = polyfit(bound_voltage_seconds[2:-2], rpm, 1)
+
+print(f"Acceleration: {m} RPM/s, y_intercept: {b}")
+
+plt.show()
+

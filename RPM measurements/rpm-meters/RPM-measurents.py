@@ -17,8 +17,8 @@ plt.rcParams.update(params)
 
 
 # Imports
-filename = "linear_accel_TEK7.csv"
-df = pd.read_csv(f"./Datos/Cleaned/{filename}")
+filename = "TEK0015.csv"
+df = pd.read_csv(f"../Datos/Cleaned/{filename}")
 
 seconds = df["seconds"]
 voltages = df["voltage"]
@@ -26,7 +26,7 @@ voltages = df["voltage"]
 
 # We pick a list of seconds whose voltages satisfy the if-condition.
 # As the if-condition is satisfied once per cycle, we'll be able to determine
-# the period by finding the diferences between these times.
+# the period by finding the diferences between these times.0
 bound_voltage_seconds = []
 for s, v, v_next in zip(seconds, voltages, voltages[1:]):
 	if v < bound and v_next > bound:
@@ -61,7 +61,7 @@ for ax in axs:
 	ax.grid(True, linestyle = "--")
 
 fig.subplots_adjust(hspace = 0.5)
-plt.savefig()
+plt.show()
 
 
 # Export
