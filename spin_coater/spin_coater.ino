@@ -2,10 +2,10 @@
 const float E = 2.718281828459045235360287471352; // no preguntes si ya sabes
 //declaración de variables
 const float volt_config = 5; //selección de configuración de voltaje
-const float speed = 800; //aceleración angular (en rpm/s)
-const float RPM_start=100; //rpm de inicio para la configuración
-const float RPM_stop=5000; //rpm de finalización para la configuración
-int main_delay = 3;//segundos de rotación a máxima velocidad
+const float speed = 800000000000000; //aceleración angular (en rpm/s)
+const float RPM_start = 100; //rpm de inicio para la configuración
+const float RPM_stop = 2000; //rpm de finalización para la configuración
+int main_delay = 30;//segundos de rotación a máxima velocidad
 
 float RPM_min=0; //rpm mínima de la configuración
 float RPM_max=0; //rpm máxima de la configuración
@@ -35,17 +35,17 @@ void setup() {
   config();
   microseconds_start = inverse(RPM_start);
   microseconds_stop = inverse(RPM_stop);
-  for (int m = microseconds_start; m < microseconds_stop; ++m) {
-    par_delay = m_delay(m);
-    esc.writeMicroseconds(m);
-    delay(par_delay);
-    Serial.print("microseconds:");// impresión de data
-    Serial.print(m);
-    Serial.print(", delay:");
-    Serial.print(par_delay);
-    Serial.print(", RPM:");
-    Serial.println(function(m));
-  }
+  // for (int m = microseconds_start; m < microseconds_stop; ++m) {
+    // par_delay = m_delay(m);
+    // esc.writeMicroseconds(m);
+    // delay(par_delay);
+    // Serial.print("microseconds:");// impresión de data
+    // Serial.print(m);
+    // Serial.print(", delay:");
+    // Serial.print(par_delay);
+    // Serial.print(", RPM:");
+    // Serial.println(function(m));
+  // }
   esc.writeMicroseconds(microseconds_stop);
   main_delay = main_delay*1000;
   Serial.println("Hold");

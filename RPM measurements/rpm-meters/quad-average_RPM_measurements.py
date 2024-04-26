@@ -19,15 +19,15 @@ plt.rcParams.update(params)
 
 
 # Imports
-filename = "TEK0028.csv"
+filename = "26-04-24_3000_5.csv"
 df = pd.read_csv(f"../Datos/Cleaned/{filename}")
 
-seconds = df["seconds"]
-voltages = df["voltage"]
+seconds = df["seconds"][:-700]
+voltages = df["voltage"][:-700]
 
 
 # We pick a list of seconds whose voltages satisfy the if-condition.
-# As the if-condition is satisfied once per cycle, we'll be able to determine   
+# As the if-condition eis satisfied once per cycle, we'll be able to determine   
 # the period by finding the diferences between these times.
 bound_voltage_seconds = []
 for s, v, v_next in zip(seconds, voltages, voltages[1:]):
@@ -37,7 +37,6 @@ for s, v, v_next in zip(seconds, voltages, voltages[1:]):
 # We take the average of the time differences between four pairs of points centered at our current time.
 periods = [mean([bound_voltage_seconds[i - 1] - bound_voltage_seconds[i - 2], bound_voltage_seconds[i] - bound_voltage_seconds[i - 1], bound_voltage_seconds[i +
                                                                                                                                                              1] - bound_voltage_seconds[i], bound_voltage_seconds[i + 2] - bound_voltage_seconds[i + 1]]) for i in range(2, len(bound_voltage_seconds) - 2)]
-
 
 # Graphs
 fig, axs = plt.subplots(3)
@@ -75,8 +74,10 @@ fig.subplots_adjust(hspace=0.5)
 #     for t, T, RPM in zip(bound_voltage_seconds, periods, rpm):
 #         f.write(f"{t},{T},{RPM}\n")
 
-m, b = polyfit(bound_voltage_seconds[2:-2], rpm, 1)
-
+# We shift seconds and rpm to zero to have y_intercept ~ 0
+bound_voltage_seconds = [x - bound_voltage_seconds[2:-2][0] for x in bound_voltage_seconds[2:-2]]
+rpm = [x - rpm[0] for x in rpm]
+m, b = polyfit(bound_voltage_seconds, rpm, 1)
 print(f"Acceleration: {m} RPM/s, y_intercept: {b}")
 
 plt.show()
