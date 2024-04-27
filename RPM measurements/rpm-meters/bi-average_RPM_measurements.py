@@ -17,8 +17,8 @@ plt.rcParams.update(params)
 
 
 # Imports
-filename = "linear_accel_TEK7.csv"
-df = pd.read_csv(f"./Datos/Cleaned/{filename}")
+filename = "26-04-24_3000_5.csv"
+df = pd.read_csv(f"../Datos/Cleaned/{filename}")
 
 seconds = df["seconds"]
 voltages = df["voltage"]

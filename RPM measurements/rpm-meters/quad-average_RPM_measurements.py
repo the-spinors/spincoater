@@ -22,12 +22,12 @@ plt.rcParams.update(params)
 filename = "26-04-24_3500_5.csv"
 df = pd.read_csv(f"../Datos/Cleaned/{filename}")
 
-seconds = df["seconds"][:-1750]
-voltages = df["voltage"][:-1750]
+seconds = df["seconds"][:-1670]
+voltages = df["voltage"][:-1670]
 
 
 # We pick a list of seconds whose voltages satisfy the if-condition.
-# As the if-condition eis satisfied once per cycle, we'll be able to determine   
+# As the if-condition is satisfied once per cycle, we'll be able to determine   
 # the period by finding the diferences between these times.
 bound_voltage_seconds = []
 for s, v, v_next in zip(seconds, voltages, voltages[1:]):
@@ -69,14 +69,15 @@ fig.subplots_adjust(hspace=0.5)
 
 
 # Export
-# with open(f"./Datos salida/quadavg_{filename}_output.csv", "w") as f:
-#     f.write("Tiempo,periodo,rpm\n")
-#     for t, T, RPM in zip(bound_voltage_seconds, periods, rpm):
-#         f.write(f"{t},{T},{RPM}\n")
+with open(f"../Datos salida/quadavg_{filename}_output.csv", "w") as f:
+    f.write("Tiempo,periodo,rpm\n")
+    for t, T, RPM in zip(bound_voltage_seconds, periods, rpm):
+        f.write(f"{t},{T},{RPM}\n")
 
 # We shift seconds and rpm to zero to have y_intercept ~ 0
 bound_voltage_seconds = [x - bound_voltage_seconds[2:-2][0] for x in bound_voltage_seconds[2:-2]]
 rpm = [x - rpm[0] for x in rpm]
+print(rpm)
 m, b = polyfit(bound_voltage_seconds, rpm, 1)
 print(f"Acceleration: {m} RPM/s, y_intercept: {b}")
 
