@@ -4,6 +4,10 @@ const float Rmax = 5309.73; // Max RPM
 const float Rmin = 402.68; // Minimum RPM
 const float k = 0.00283627; // Exponential parameter
 
+// Variables for linear correction of acceleration
+const float m = 1.16896; // Slope
+const float b = -12.66475; // y intercept
+
 // Takes in RPM and returns requiered microseconds to achieve that RPM on esc.writeMicroseconds()
 float RPM_us_function(float rpm) {
   return (-1 / k) * log(1 - ((rpm - Rmin)/(Rmax - Rmin))) + umin;
@@ -11,20 +15,22 @@ float RPM_us_function(float rpm) {
 
 
 // Operation variables
-const float Rstart = 420;
-const float Rend = 5300;
-const float Rstep = 3; // Step between RPM
+const float RPMstart = 420;
+const float RPMend = 5300;
+const float RPMstep = 3; // Step between RPM
+// Expected acceleration
+float accel_r = 7000; // RPM/s
 
-const float accel = 3500; // RPM/s
-const float delay_time = (Rstep / accel) * 1000000; // Delay between RPM increments in microseconds
-const int number_of_steps = ((Rend - Rstart) / Rstep) + 1;
-float RPM_us_array[number_of_steps];
+float accel = (accel_r - b) / m; // Linear correction for acceleration in RPM/s
+const float delay_time = (RPMstep / accel) * 1000000; // Delay between RPM increments in microseconds
+const int number_of_steps = ((RPMend - RPMstart) / RPMstep) + 1;
+float RPM_us_array[number_of_steps]; // Array for precalculated us
 
 
 // Precalculation of us
 int i = 0;
 void pre_calc() {
-  for (float rpm = Rstart; rpm <= Rend; rpm = rpm + Rstep) {
+  for (float rpm = RPMstart; rpm <= RPMend; rpm = rpm + RPMstep) {
     float us = RPM_us_function(rpm);
     RPM_us_array[i] = us;
     i ++;
@@ -45,7 +51,7 @@ void accelerator() {
 
 // Begin operation
 const int start_delay = 1000; // Delays before starting (Milliseconds)
-const int end_delay = 1000; // Delays before ending (Milliseconds)
+const int end_delay = 3000; // Delays before ending (Milliseconds)
 void setup() {
   Serial.begin(9600); 
   esc.attach(9, 1000, 2000);
