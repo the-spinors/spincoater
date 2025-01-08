@@ -1,0 +1,7 @@
+[ENGLISH]
+Welcome to the Spin Coater v1 repository where you will find all the files, diagrams, codes and part models to replicate the presented spin coater model. Inside the Spin Coater database folder you will find the codes necessary for operation, electrical diagrams, 3d part models to edit in Autodesk Inventor and their ready-to-print version.
+Inside the Thin Films database folder you will find codes for thin film analysis.
+
+[SPANISH]
+Bienvenido al repositorio del Spin Coater v1 donde se encuentran todos los archivos, diagramas, códigos y modelos de piezas para replicar el modelo de spin coater presentado. Dentro de la carpeta Spin Coater database encontrarás los códigos necesarios para el funcionamiento, los diagramas eléctricos, los modelos de piezas 3d para editar en Autodesk Inventor y su versión lista para imprimir. 
+Dentro de la carpeta Thin Films database encontrarás códigos para el análisis de películas delgadas.
